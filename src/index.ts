@@ -1,7 +1,9 @@
 import express from 'express';
 import roomRouter from './routes/rooms';
-import authRouter from './auth/auth';
+import authRouter from './auth/authRouter';
 const app = express();
+
+require("./auth/auth");
 
 app.use(authRouter);
 
