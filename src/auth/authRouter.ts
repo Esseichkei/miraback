@@ -9,7 +9,7 @@ authRouter.post(
       passport.authenticate(
         'login',
         async (err, user, info) => {
-           // console.log(info.message);
+            console.log(info.message);
           try {
             if (err || !user) {
               const error = new Error('An error occurred.');

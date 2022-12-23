@@ -13,9 +13,9 @@ passport.use(
             if (email === 'cat@catmail.com' &&
                 password === 'meow') {
                     done(null, {email: email, _id: 1},
-                        {message: 'Logged in successfully'});
+                        {message: 'Logged in successfully!'});
             } else {
-                done(null, false, {message: 'Incorrect credentials'});
+                done(null, false, {message: 'Incorrect credentials, email: ' + email + ' password: ' + password + '.'});
             }
         }
     )
