@@ -2,6 +2,8 @@ import passport from 'passport';
 import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
 import { Strategy as localStrategy } from 'passport-local';
 
+require("dotenv").config();
+
 passport.use(
     'login',
     new localStrategy(
@@ -25,7 +27,7 @@ passport.use(
 passport.use(
     new JWTstrategy(
       {
-        secretOrKey: '8aslkdfjeok',
+        secretOrKey: String(process.env.PASSWORD),
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
       },
       async (token, done) => {

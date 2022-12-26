@@ -2,6 +2,8 @@ import express from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 
+require("dotenv").config();
+
 const authRouter = express.Router(); // move out of this file
 authRouter.post(
     '/login',
@@ -24,7 +26,7 @@ authRouter.post(
                 if (error) return next(error);
   
                 const body = { _id: user._id, email: user.email };
-                const token = jwt.sign({ user: body }, '8aslkdfjeok');
+                const token = jwt.sign({ user: body }, String(process.env.PASSWORD));
   
                 return res.json({ token });
               }
