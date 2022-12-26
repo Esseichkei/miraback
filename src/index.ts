@@ -12,8 +12,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(authRouter);
 
 app.get('/', (req, res): void => {
-    res.send('hello world, this is index');
+  res.send('hello world, this is index');
 });
+
 app.use('/', passport.authenticate('jwt', { session: false }), roomRouter);
 
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
