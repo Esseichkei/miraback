@@ -6,6 +6,7 @@ import passport from 'passport';
 const app = express();
 
 require("./auth/auth");
+require("./db/mysql");
 
 app.use(bodyParser.urlencoded({extended: false}));
 
