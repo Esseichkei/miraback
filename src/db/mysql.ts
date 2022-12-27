@@ -1,9 +1,9 @@
 import mysql from 'mysql';
+
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'dbuser',
-  password: process.env.DBPASSWORD,
-  database: 'my_db'
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD
 })
 
 connection.connect()

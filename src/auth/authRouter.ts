@@ -2,8 +2,6 @@ import express from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 
-require("dotenv").config();
-
 const authRouter = express.Router(); // move out of this file
 authRouter.post(
     '/login',
