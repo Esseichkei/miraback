@@ -1,5 +1,5 @@
 import express from 'express';
-import roomRouter from './routes/rooms';
+import secureRouter from './routes/secureRouter';
 import authRouter from './auth/authRouter';
 import bodyParser from 'body-parser';
 import passport from 'passport';
@@ -15,7 +15,7 @@ app.get('/', (req, res): void => {
   res.send('hello world, this is index');
 });
 
-app.use('/', passport.authenticate('jwt', { session: false }), roomRouter);
+app.use('/', passport.authenticate('jwt', { session: false }), secureRouter);
 
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     res.status(500);
