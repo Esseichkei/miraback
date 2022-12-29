@@ -3,7 +3,8 @@ import mysql from 'mysql';
 const connection = mysql.createConnection({
   host: 'localhost',
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD
+  password: process.env.DB_PASSWORD,
+  database: 'miraback'
 })
 
 connection.connect()
