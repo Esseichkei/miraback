@@ -1,0 +1,47 @@
+CREATE TABLE rooms (
+    number INT,
+    type TINYINT,
+    offer TINYINT,
+    price DOUBLE(8,2),
+    discount DOUBLE(5,2),
+    description TEXT,
+    cancellation VARCHAR(255),
+    amenities VARCHAR(255),
+    fotos VARCHAR(255),
+    PRIMARY KEY (number)
+);
+
+CREATE TABLE bookings (
+    id INT,
+    check_in DATE,
+    check_out DATE,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    room_number INT,
+    price DOUBLE(8, 2),
+    special_request TEXT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (room_number) REFERENCES rooms (number)
+);
+
+CREATE TABLE users (
+    id INT,
+    full_name VARCHAR(255),
+    email VARCHAR(255),
+    start_date DATE,
+    description VARCHAR(255),
+    contact VARCHAR(255),
+    status TINYINT,
+    foto VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE contact (
+    id INT,
+    date DATE,
+    customer VARCHAR(255),
+    topic VARCHAR(255),
+    text TEXT,
+    archived TINYINT,
+    PRIMARY KEY (id)
+);

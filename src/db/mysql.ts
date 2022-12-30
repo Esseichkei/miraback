@@ -7,12 +7,21 @@ const connection = mysql.createConnection({
   database: 'miraback'
 })
 
-connection.connect()
+connection.connect();
 
-connection.query('SELECT 1 + 1 AS solution', (err, rows, fields) => {
-  if (err) throw err
+process.on("exit", () => {
+  console.log("Closing connection to database...");
+  connection.end();
+});
 
-  console.log('The solution is: ', rows[0].solution)
-})
+const queryDb = (query: string) : Promise<string[]> => {
+  return new Promise((resolve, reject) => {
+    connection.query(query, (err, result) => {
+      if (err)
+        reject(err);
+      resolve(result);
+    });
+  });
+}
 
-connection.end()
+export default queryDb;
