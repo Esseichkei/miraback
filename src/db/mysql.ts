@@ -9,14 +9,14 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
-process.on("exit", () => {
+process.on("SIGTERM", () => {
   console.log("Closing connection to database...");
   connection.end();
 });
 
-const queryDb = (query: string) : Promise<string[]> => {
+const queryDb = (query: string, params: Object) : Promise<string[]> => {
   return new Promise((resolve, reject) => {
-    connection.query(query, (err, result) => {
+    connection.query(query, params, (err, result) => {
       if (err)
         reject(err);
       resolve(result);
