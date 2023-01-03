@@ -1,12 +1,9 @@
 import express from "express";
-import queryDb from "../db/mysql";
 import Joi from "joi";
+import { dbGet, dbPost, dbPut, dbDelete } from "./common";
+const tableName = 'users';
 
-interface IdInfo {
-    id: number | undefined
-}
-
-const roomSchema = Joi.object({
+const userSchema = Joi.object({
     id: Joi.number()
         .integer()
         .min(0)
@@ -29,76 +26,21 @@ const roomSchema = Joi.object({
         .required()
 });
 
-const userGet = async (info: IdInfo): Promise<Object> => {
-    if (info.id !== undefined) {
-        try {
-            const result = await queryDb("SELECT * FROM users WHERE id=?", info.id);
-            return result;
-        } catch(err) {
-            console.error(err);
-            return {};
-        }
-    }
-    else {
-        try {
-            const result = await queryDb("SELECT * FROM users");
-            return result;
-        } catch(err) {
-            console.error(err);
-            return {};
-        }
-    }
-};
-
-const userPost = async (info: Object): Promise<void> => {
-    try {
-        await roomSchema.validateAsync(info, {abortEarly: false});
-    } catch (err) {
-        console.error(err);
-    }
-    try {
-        await queryDb("INSERT INTO users SET ?", info);
-    } catch (err) {
-        console.error(err);
-    }
-};
-const userPut = async (info: IdInfo): Promise<void> => {
-    try {
-        await roomSchema.validateAsync(info, {abortEarly: false});
-    } catch (err) {
-        console.error(err);
-    }
-    try {
-        await queryDb("UPDATE users SET ? WHERE id=?", [info, info.id]);
-    } catch (err) {
-        console.error(err);
-    }
-}
-const userDelete = async (info: IdInfo): Promise<void> => {
-    if (info === undefined)
-        return;
-    try {
-        await queryDb("DELETE FROM users WHERE id=?", info.id);
-    } catch (err) {
-        console.error(err);
-    }
-}
-
 const userRouter = express.Router();
 userRouter.get('/users', async (req, res) => {
-    const users = await userGet(req.body);
+    const users = await dbGet(tableName, req.body);
     res.json(JSON.stringify(users));
 });
 userRouter.post('/users', async (req, res) => {
-    await userPost(req.body);
+    await dbPost(tableName, req.body, userSchema);
     res.send('POST request for Users -- CREATE');
 });
 userRouter.put('/users', async (req, res) => {
-    await userPut(req.body);
+    await dbPut(tableName, req.body, userSchema);
     res.send('PUT request for Users -- UPDATE');
 });
 userRouter.delete('/users', async (req, res) => {
-    await userDelete(req.body);
+    await dbDelete(tableName, req.body);
     res.send('DELETE request for Users -- DELETE');
 });
 export default userRouter;
