@@ -15,7 +15,7 @@ process.on("SIGTERM", () => {
   connection.end();
 });
 
-const queryDb = (query: string, params: Object) : Promise<string[]> => {
+const queryDb = (query: string, params: Object = {}) : Promise<string[]> => {
   return new Promise((resolve, reject) => {
     connection.query(query, params, (err, result) => {
       if (err)

@@ -2,11 +2,28 @@ import express from "express";
 import queryDb from "../db/mysql";
 import Joi from "joi";
 
-const userPost = async (req: any): Promise<void> => {
+interface GetInfo {
+    id: number | undefined
+}
+
+const userGet = async (info: GetInfo): Promise<Object> => {
+    if (info.id !== undefined) {
+        const result = await queryDb("SELECT * FROM users WHERE id=?", info.id);
+        return result;
+    }
+    else {
+        const results = await queryDb("SELECT * FROM users");
+        return results;
+    }
+}
+
+const userPost = async (info: Object): Promise<void> => {
     const roomSchema = Joi.object({
         id: Joi.number()
             .integer()
             .min(0)
+            .required(),
+        full_name: Joi.string()
             .required(),
         email: Joi.string()
             .email()
@@ -24,7 +41,7 @@ const userPost = async (req: any): Promise<void> => {
             .required()
     });
     try {
-        const roomValidation = await roomSchema.validateAsync(req.body, {abortEarly: false});
+        const roomValidation = await roomSchema.validateAsync(info, {abortEarly: false});
         console.log(roomValidation);
     }
     catch(err) {
@@ -32,7 +49,7 @@ const userPost = async (req: any): Promise<void> => {
         return;
     }
     try {
-        const queryResponse = await queryDb("INSERT INTO users SET ?", req.body);
+        const queryResponse = await queryDb("INSERT INTO users SET ?", info);
         console.log(queryResponse);
     }
     catch(err) {
@@ -41,11 +58,12 @@ const userPost = async (req: any): Promise<void> => {
 }
 
 const userRouter = express.Router();
-userRouter.get('/users', (req, res) => {
-    res.send('GET request for Users -- READ');
+userRouter.get('/users', async (req, res) => {
+    const users = await userGet(req.body);
+    res.json(JSON.stringify(users));
 });
 userRouter.post('/users', async (req, res) => {
-    await userPost(req);
+    await userPost(req.body);
     res.send('POST request for Users -- CREATE');
 });
 userRouter.put('/users', (req, res) => {
