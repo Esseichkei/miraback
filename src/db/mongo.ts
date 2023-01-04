@@ -4,7 +4,7 @@ interface IdObject {
     id: number
 }
 
-const room = new mongoose.Schema({
+export const room = new mongoose.Schema({
     id: Number,
     type: Number,
     offer: Number,
@@ -15,7 +15,7 @@ const room = new mongoose.Schema({
     amenities: String,
     photos: String
 }, {collection: 'rooms'});
-const booking = new mongoose.Schema({
+export const booking = new mongoose.Schema({
     id: Number,
     check_in: Date,
     check_out: Date,
@@ -25,7 +25,7 @@ const booking = new mongoose.Schema({
     price: Number,
     special_request: String
 }, {collection: 'bookings'});
-const user = new mongoose.Schema({
+export const user = new mongoose.Schema({
     id: Number,
     full_name: String,
     email: String,
@@ -35,7 +35,7 @@ const user = new mongoose.Schema({
     status: Number,
     photo: String
 }, {collection: 'users'});
-const contact = new mongoose.Schema({
+export const contact = new mongoose.Schema({
     id: Number,
     date: Date,
     customer: String,
