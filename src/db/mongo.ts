@@ -65,7 +65,7 @@ export const dbPost = async (itemString: string, schema: mongoose.Schema, object
         await item.save();
     }
 }
-export const dbUpdate = async (itemString: string, schema: mongoose.Schema, object: IdObject) => {
+export const dbPut = async (itemString: string, schema: mongoose.Schema, object: IdObject) => {
     const connection = await connect();
     const model = connection.model(itemString, schema);
     await model.updateOne({id: object.id}, {...object});
