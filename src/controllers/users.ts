@@ -29,7 +29,7 @@ const userSchema = Joi.object({
 const userRouter = express.Router();
 userRouter.get('/users', async (req, res) => {
     const users = await dbGet(tableName, req.body);
-    res.json(JSON.stringify(users));
+    res.json(users);
 });
 userRouter.post('/users', async (req, res) => {
     await dbPost(tableName, req.body, userSchema);

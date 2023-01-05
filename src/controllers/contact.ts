@@ -26,7 +26,7 @@ const contactSchema = Joi.object({
 const contactRouter = express.Router();
 contactRouter.get('/contact', async (req, res) => {
     const reviews = await dbGet(tableName, req.body);
-    res.json(JSON.stringify(reviews));
+    res.json(reviews);
 });
 contactRouter.post('/contact', async (req, res) => {
     await dbPost(tableName, req.body, contactSchema);

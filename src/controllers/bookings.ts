@@ -32,7 +32,7 @@ const bookingSchema = Joi.object({
 const bookingRouter = express.Router();
 bookingRouter.get('/bookings', async (req, res) => {
     const bookings = await dbGet(tableName, req.body);
-    res.json(JSON.stringify(bookings));
+    res.json(bookings);
 });
 bookingRouter.post('/bookings', async (req, res) => {
     await dbPost(tableName, req.body, bookingSchema);

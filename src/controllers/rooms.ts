@@ -40,7 +40,7 @@ const roomSchema = Joi.object({
 const roomRouter = express.Router();
 roomRouter.get('/rooms', async (req, res) => {
     const rooms = await dbGet(tableName, req.body);
-    res.json(JSON.stringify(rooms));
+    res.json(rooms);
 });
 roomRouter.post('/rooms', async (req, res) => {
     await dbPost(tableName, req.body, roomSchema);
