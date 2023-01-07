@@ -1,5 +1,8 @@
 import express from "express";
 import { dbGet, dbPost, dbPut, dbDelete, userSchema } from "../db/mongo";
+import bcrypt from 'bcrypt';
+const saltRounds = 10;
+
 const userRouter = express.Router();
 userRouter.get('/users', async (req, res) => {
     let response;
@@ -10,10 +13,13 @@ userRouter.get('/users', async (req, res) => {
     res.json(response);
 });
 userRouter.post('/users', async (req, res) => {
+    req.body.password = await bcrypt.hash(req.body.password, saltRounds);
     await dbPost('User', userSchema, req.body);
     res.send('POST request for Users -- CREATE');
 });
 userRouter.put('/users', async (req, res) => {
+    if (req.body.password !== undefined)
+        req.body.password = await bcrypt.hash(req.body.password, saltRounds);
     await dbPut('User', userSchema, req.body);
     res.send('PUT request for Users -- UPDATE');
 });
