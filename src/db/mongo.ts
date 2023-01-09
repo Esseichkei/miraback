@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
+import bcrypt from 'bcrypt';
 
 interface IdObject {
     id: number
+}
+interface UserCredentials {
+    email: string,
+    password: string
 }
 
 export const roomSchema = new mongoose.Schema({
@@ -85,4 +90,13 @@ export const dbDelete = async (itemString: string, schema: mongoose.Schema, id: 
         return 'Item deleted!';
     }
     return 'Item not deleted, something went wrong.';
+}
+
+export const checkLogin = async (credentials: UserCredentials): Promise<boolean> => {
+    const connection = await connect();
+    const model = connection.model('User', userSchema);
+    const response = await model.findOne({email: credentials.email}, 'password').exec();
+    if (response === null || response.password === undefined)
+        return false;
+    return await bcrypt.compare(credentials.password, response.password);
 }

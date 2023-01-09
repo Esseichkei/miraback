@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
 import { Strategy as localStrategy } from 'passport-local';
+import { checkLogin } from '../db/mongo';
 
 passport.use(
     'login',
@@ -9,9 +10,10 @@ passport.use(
           usernameField: 'email',
           passwordField: 'password'
         },
-        (email, password, done) => {
-            if (email === 'cat@catmail.com' &&
-                password === 'meow') {
+        async (email, password, done) => {
+            const credentialsCheck = await checkLogin({email: email,
+              password: password});
+            if (credentialsCheck) {
                     done(null, {email: email, _id: 1},
                         {message: 'Logged in successfully!'});
             } else {
