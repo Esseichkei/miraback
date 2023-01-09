@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+//require("dotenv").config();
+
 interface IdObject {
     id: number
 }
@@ -44,8 +46,9 @@ export const contactSchema = new mongoose.Schema({
     archived: Number
 }, {collection: 'contact'});
 
+console.log(process.env.MONGO_URI);
 const connect = async () => {
-    return await mongoose.connect('mongodb://127.0.0.1:27017/miraback');
+    return await mongoose.connect(String(process.env.MONGO_URI));
 }
 
 export const dbGet = async (itemString: string, schema: mongoose.Schema, id: number = -1) => {

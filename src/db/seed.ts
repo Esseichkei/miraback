@@ -1,6 +1,6 @@
+require("dotenv").config();
 import { faker } from '@faker-js/faker';
 import { dbPost, roomSchema, bookingSchema, userSchema, contactSchema } from './mongo';
-
 //rooms
 async function seedRooms() {
     for (let i = 0; i < 50; i++) {

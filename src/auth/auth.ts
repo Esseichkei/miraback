@@ -2,7 +2,7 @@ import passport from 'passport';
 import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
 import { Strategy as localStrategy } from 'passport-local';
 
-require("dotenv").config();
+//require("dotenv").config();
 
 passport.use(
     'login',

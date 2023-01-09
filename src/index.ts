@@ -1,9 +1,14 @@
+require("dotenv").config();
 import express from 'express';
 import secureRouter from './routes/secureRouter';
 import authRouter from './auth/authRouter';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import cors from 'cors';
+
 const app = express();
+
+app.use(cors());
 
 require("./auth/auth");
 
