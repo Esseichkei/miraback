@@ -29,6 +29,7 @@ export const userSchema = new mongoose.Schema({
     id: Number,
     full_name: String,
     email: String,
+    password: String,
     start_date: Date,
     description: String,
     contact: String,

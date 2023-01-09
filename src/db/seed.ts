@@ -1,6 +1,9 @@
 require("dotenv").config();
 import { faker } from '@faker-js/faker';
 import { dbPost, roomSchema, bookingSchema, userSchema, contactSchema } from './mongo';
+import bcrypt from 'bcrypt';
+
+const saltRounds = 10;
 //rooms
 async function seedRooms() {
     for (let i = 0; i < 50; i++) {
@@ -54,11 +57,30 @@ seedBookings();
 
 //users
 async function seedUsers() {
-    for (let i = 0; i < 50; i++) {
+    const catUser = {
+        id: 0,
+        full_name: 'Kid Kittinton',
+        email: 'cat@catmail.com',
+        password: await bcrypt.hash('meow', saltRounds),
+        start_date: '2022-09-01',
+        description: 'A real fluffy cat that always delivers!',
+        contact: '12345678',
+        status: 1,
+        photo: faker.image.imageUrl(200, 200, 'cat')
+    }
+    try {
+        const result = await dbPost("User", userSchema, catUser);
+        console.log(result);
+    }
+    catch(err) {
+        console.error(err);
+    }
+    for (let i = 1; i < 50; i++) {
         const user = {
             id: i,
             full_name: faker.name.fullName(),
             email: faker.internet.email(),
+            password: await bcrypt.hash(faker.internet.password(), saltRounds),
             start_date: faker.date.recent(),
             description: faker.lorem.sentence(),
             contact: faker.phone.number(),
