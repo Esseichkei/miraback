@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-//require("dotenv").config();
-
 interface IdObject {
     id: number
 }
@@ -46,7 +44,6 @@ export const contactSchema = new mongoose.Schema({
     archived: Number
 }, {collection: 'contact'});
 
-console.log(process.env.MONGO_URI);
 const connect = async () => {
     return await mongoose.connect(String(process.env.MONGO_URI));
 }
