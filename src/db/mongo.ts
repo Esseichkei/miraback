@@ -66,15 +66,25 @@ export const dbPost = async (itemString: string, schema: mongoose.Schema, object
     const item = new model({...object});
     if ((await model.find({id: object.id}).exec()).length === 0) {
         await item.save();
+        return 'Item saved!';
     }
+    return 'Item already in DB.';
 }
 export const dbPut = async (itemString: string, schema: mongoose.Schema, object: IdObject) => {
     const connection = await connect();
     const model = connection.model(itemString, schema);
-    await model.updateOne({id: object.id}, {...object});
+    const response = await model.updateOne({id: object.id}, {...object});
+    if (response.acknowledged && response.modifiedCount) {
+        return 'Item updated!';
+    }
+    return 'Item not updated, something went wrong.';
 }
 export const dbDelete = async (itemString: string, schema: mongoose.Schema, id: number)=> {
     const connection = await connect();
     const model = connection.model(itemString, schema);
-    await model.deleteOne({id: id});
+    const response = await model.deleteOne({id: id});
+    if (response.acknowledged && response.deletedCount) {
+        return 'Item deleted!';
+    }
+    return 'Item not deleted, something went wrong.';
 }
