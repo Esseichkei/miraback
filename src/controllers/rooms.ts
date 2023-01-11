@@ -1,12 +1,12 @@
 import express from "express";
 import { dbGet, dbPost, dbPut, dbDelete, roomSchema } from "../db/mongo";
 const roomRouter = express.Router();
+roomRouter.get('/rooms/:id(\\d+)', async (req, res) => {
+    const response = await dbGet('Room', roomSchema, Number(req.params.id))
+    res.json(response);
+});
 roomRouter.get('/rooms', async (req, res) => {
-    let response;
-    if (req.body.id !== undefined)
-        response = await dbGet('Room', roomSchema, req.body.id);
-    else
-        response = await dbGet('Room', roomSchema, -1);
+    const response = await dbGet('Room', roomSchema, -1);
     res.json(response);
 });
 roomRouter.post('/rooms', async (req, res) => {
