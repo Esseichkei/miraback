@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 
+mongoose.set('strictQuery', false);
+
 interface IdObject {
     id: number
 }
@@ -76,16 +78,17 @@ export const dbPost = async (itemString: string, schema: mongoose.Schema, object
 export const dbPut = async (itemString: string, schema: mongoose.Schema, object: IdObject) => {
     const connection = await connect();
     const model = connection.model(itemString, schema);
-    const response = await model.updateOne({id: object.id}, {...object});
+    const response = await model.updateOne({id: object.id}, {...object}).exec();
     if (response.acknowledged && response.modifiedCount) {
         return 'Item updated!';
     }
     return 'Item not updated, something went wrong.';
+    
 }
 export const dbDelete = async (itemString: string, schema: mongoose.Schema, id: number)=> {
     const connection = await connect();
     const model = connection.model(itemString, schema);
-    const response = await model.deleteOne({id: id});
+    const response = await model.deleteOne({id: id}).exec();
     if (response.acknowledged && response.deletedCount) {
         return 'Item deleted!';
     }
