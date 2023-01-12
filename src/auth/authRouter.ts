@@ -6,7 +6,6 @@ const authRouter = express.Router(); // move out of this file
 authRouter.post(
     '/login',
     async (req, res, next) => {
-      console.log(req.body);
       passport.authenticate(
         'login',
         async (err, user, info) => {
