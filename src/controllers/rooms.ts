@@ -10,15 +10,15 @@ roomRouter.get('/rooms', async (req, res) => {
     res.json(response);
 });
 roomRouter.post('/rooms', async (req, res) => {
-    await dbPost('Room', roomSchema, req.body);
-    res.send('POST request for Rooms -- CREATE');
+    const response = await dbPost('Room', roomSchema, req.body);
+    res.send('POST request for Rooms -- CREATE\n' + response);
 });
 roomRouter.put('/rooms', async (req, res) => {
-    await dbPut('Room', roomSchema, req.body);
-    res.send('PUT request for Rooms -- UPDATE');
+    const response = await dbPut('Room', roomSchema, req.body);
+    res.send('PUT request for Rooms -- UPDATE\n' + response);
 });
 roomRouter.delete('/rooms', async (req, res) => {
-    await dbDelete('Room', roomSchema, req.body.id);
-    res.send('DELETE request for Rooms -- DELETE');
+    const response = await dbDelete('Room', roomSchema, req.body.id);
+    res.send('DELETE request for Rooms -- DELETE\n' + response);
 });
 export default roomRouter;
